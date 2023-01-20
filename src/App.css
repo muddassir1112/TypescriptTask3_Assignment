@@ -1,17 +1,18 @@
-.container{
+.container {
   display: flex;
   /* justify-content: space-between; */
-  margin: 5% 0% 0% 25%;
-  gap: 5%;
+  justify-content: center;
+  margin: 5% 0% 0% 0%;
+  gap: 10%;
 }
-.form_container{
+.form_container {
   box-shadow: 0px 0px 5px 3px lightgray;
   padding: 2%;
-  
+  width: 40%;
 }
 .list_container > table > tbody > tr {
   border-bottom: 2px solid green;
 }
-/* .list_containerP{
-  width: 70%;
-} */
+.list_container > table {
+  width: 150%;
+}

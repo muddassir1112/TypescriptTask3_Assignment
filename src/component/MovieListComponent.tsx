@@ -2,18 +2,21 @@ import React, { useContext, useEffect } from "react";
 import { MovieContext } from "../App";
 
 export const MovieListComponent = () => {
+  // useEffect Hook is used
   const data = useContext(MovieContext);
-  // useEffect(()=>{
-  //   data.MoviesDetails.sort(function(a:any,b:any){
-  //     return data.setMoviesDetails(a.duration - b.duration)
-  //   })
-  // },[])
+  // useEffect Hook is used to set the data in temporary context state array
+  useEffect(() => {
+    data.MovieDetails.sort((a: any, b: any) => b.durationSort - a.durationSort)
+    data.TempMovieDetails.sort((a: any, b: any) => b.durationSort - a.durationSort)
+        data.setTempMovieDetails([...data.TempMovieDetails])
+        data.setMovieDetails([...data.MovieDetails])
+}, [data.MovieDetails])
   return (
     <div className="list_container">
       <table className="table table-striped table-hover">
         {data.MovieDetails.length > 0
           ? data.MovieDetails.map(
-              (ele: { name: string; ratings: number; duration: any },index:number) => (
+              (ele:any,index:number) => (
                 <tbody key={index}>
                   <tr>
                     <th colSpan={10}>{ele.name}</th>

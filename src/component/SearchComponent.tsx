@@ -1,42 +1,45 @@
-import React, {  useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MovieContext } from "../App";
 export const SearchComponent = () => {
-  const data = useContext(MovieContext)
-  let searchedArray:any = [];
-  const [inputSearch, setInputSearch] = useState("")
-  const [tempArr, setTempArr] = useState(data.MoviesDetails)
+  const data = useContext(MovieContext);
+  const [inputSearch, setInputSearch] = useState<string>("");
+  const [flag, setFlag] = useState(false);
+  let searchedArr: any = [];
+  //  useEffect Hook used to show complete list while it is not searching
+  useEffect(() => {
+    if (inputSearch.length === 0 && flag === true) {
+      data.setMovieDetails(data.TempMovieDetails);
+      setFlag(false);
+    }
+  }, [data.TempMovieDetails, data, flag, inputSearch]);
+  //  function to search movies
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if(e.target.value.length > 2){
-      let startsWithAlphabet = 
-      e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);
-      for(let i = 0; i<data.MoviesDetails.length; i++){
-        // data.MoviesDetails[i].name = data.MoviesDetails[i].toLowerCase();
-        if(tempArr[i].startsWithAlphabet(startsWithAlphabet)){
-          searchedArray.push(tempArr[i])
+    let temp = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);
+    setInputSearch(temp);
+    if (temp.length >= 2) {
+      if (data.MovieDetails.length === 0) {
+        alert("Add Some Movies !!");
+      } else {
+        for (let i = 0; i < data.MovieDetails.length; i++) {
+          if (data.MovieDetails[i].name.startsWith(temp) === true) {
+            searchedArr.push(data.MovieDetails[i]);
+            setFlag(true);
+          }
         }
+        data.setMovieDetails(searchedArr);
       }
-      data.setMoviesDetails([...searchedArray])
-    }else return
-    
-  }
+    }
+  };
   return (
-    <div className="input-group mb-3">
+    <div className="input-group mb-3" style={{ width: "150%" }}>
       <input
         type="text"
         className="form-control"
         placeholder="Recipient's username"
         aria-label="Recipient's username"
         aria-describedby="button-addon2"
-        // value={inputSearch}
         onChange={handleSearch}
       />
-      {/* <button
-        className="btn btn-outline-secondary"
-        type="button"
-        id="button-addon2"
-      >
-        <i className='fas fa-search'></i>
-      </button> */}
     </div>
   );
 };
