@@ -1,6 +1,12 @@
+.header {
+  background-color: #39434d;
+  color: #00eb64;
+  text-align: center;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
+}
 .container {
   display: flex;
-  /* justify-content: space-between; */
   justify-content: center;
   margin: 5% 0% 0% 0%;
   gap: 10%;
@@ -10,7 +16,7 @@
   padding: 2%;
   width: 40%;
 }
-.list_container > table > tbody > tr {
+.list_container > table > tbody > tr:nth-child(even) {
   border-bottom: 2px solid green;
 }
 .list_container > table {

@@ -22,6 +22,15 @@ function App() {
         setTempMovieDetails,
       }}
     >
+      <div className="header">
+        <h2>
+          <i
+            className="fa fa-file-movie-o"
+            style={{ fontSize: "38px", color: "white" }}
+          />
+          &nbsp;&nbsp;Favourite Movie Directory
+        </h2>
+      </div>
       <div className="container">
         <MovieForm />
         <div className="list_Search_container">

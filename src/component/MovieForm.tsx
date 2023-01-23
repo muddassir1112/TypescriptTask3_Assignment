@@ -6,10 +6,11 @@ export const MovieForm = () => {
   const nameRef = useRef<HTMLInputElement>(null!);
   const ratingRef = useRef<HTMLInputElement>(null!);
   const durationRef = useRef<HTMLInputElement>(null!);
-  const handleAddMovie = () => {
-    // regex 
+  const handleAddMovie = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    // regex for duration of movie
     let durationRegex = /^[0-9]?.?[0-9]hr$/i;
-    // Validation
+    // Validation on form
     if (nameRef.current.value === "") {
       alert("Please Add Name");
     } else if (
@@ -44,41 +45,41 @@ export const MovieForm = () => {
 
   return (
     <div className="form_container">
-      <div className="form-floating mb-3">
+      <form onSubmit={handleAddMovie}>
+        <div className="form-floating mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Enter Movie Name..."
+            ref={nameRef}
+          />
+          <label>Movie Name</label>
+        </div>
+        <div className="form-floating mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Ratings..."
+            ref={ratingRef}
+          />
+          <label>Ratings(Out of/100)</label>
+        </div>
+        <div className="form-floating mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Duration"
+            ref={durationRef}
+          />
+          <label>Duration(min/hrs)</label>
+        </div>
         <input
-          type="text"
-          className="form-control"
-          placeholder="Enter Movie Name..."
-          ref={nameRef}
+          type="submit"
+          value="  Add Movie"
+          style={{ float: "right" }}
+          className="btn btn-success"
         />
-        <label>Movie Name</label>
-      </div>
-      <div className="form-floating mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Ratings..."
-          ref={ratingRef}
-        />
-        <label>Ratings(Out of/100)</label>
-      </div>
-      <div className="form-floating mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Duration"
-          ref={durationRef}
-        />
-        <label>Duration(min/hrs)</label>
-      </div>
-      <button
-        type="button"
-        style={{ float: "right" }}
-        className="btn btn-success"
-        onClick={handleAddMovie}
-      >
-        Add Movie
-      </button>
+      </form>
     </div>
   );
 };
