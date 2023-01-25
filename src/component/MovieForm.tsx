@@ -9,38 +9,49 @@ export const MovieForm = () => {
   const handleAddMovie = (e: React.SyntheticEvent) => {
     e.preventDefault();
     // regex for duration of movie
-    let durationRegex = /^[0-9]?.?[0-9]hr$/i;
+    let durationRegexHour = /^[0-9]?.?[0-9]h$/i;
+    let durationRegexMin = /^[0-9]?.?[0-9]m$/i;
+    let durationInHr = 0;
+    let obj = {};
     // Validation on form
-    if (nameRef.current.value === "") {
-      alert("Please Add Name");
-    } else if (
+    if (
+      nameRef.current.value === "" ||
       ratingRef.current.value === "" ||
+      durationRef.current.value === ""
+    ) {
+      alert("Please Add Name");
+      return;
+    } else if (
       parseInt(ratingRef.current.value) > 100 ||
       parseInt(ratingRef.current.value) < 1
     ) {
       alert("Please Enter Ratings Between 1-100");
     } else if (durationRef.current.value === "") {
       alert("Please Enter Duration");
-    } else if (durationRef.current.value !== "") {
-      if (durationRegex.test(durationRef.current.value) === false) {
-        alert("Please Enter Duration in hour(Eg. 2.5hr)");
-      } else {
-        let obj = {
-          durationSort: Number(durationRef.current.value.slice(0, -2)),
-          name:
-            nameRef.current.value.charAt(0).toUpperCase() +
-            nameRef.current.value.slice(1),
-          ratings: Number(ratingRef.current.value),
-          duration: durationRef.current.value,
-        };
-        data.setMovieDetails([...data.MovieDetails, obj]);
-        data.setTempMovieDetails([...data.TempMovieDetails, obj]);
-        nameRef.current.focus();
-        nameRef.current.value = "";
-        ratingRef.current.value = "";
-        durationRef.current.value = "";
+    } else if (
+      (durationRef.current.value !== "" &&
+        durationRegexHour.test(durationRef.current.value) === true) ||
+      durationRegexMin.test(durationRef.current.value) === true
+    ) {
+      if (durationRef.current.value.includes("m")) {
+        durationInHr = Number(durationRef.current.value.slice(0, -1)) / 60;
+      } else if (durationRef.current.value.includes("h")) {
+        durationInHr = Number(durationRef.current.value.slice(0, -1));
       }
-    }
+      obj = {
+        durationSort: durationInHr,
+        name:
+          nameRef.current.value.charAt(0).toUpperCase() +
+          nameRef.current.value.slice(1),
+        ratings: Number(ratingRef.current.value),
+      };
+      data.setMovieDetails([...data.MovieDetails, obj]);
+      data.setTempMovieDetails([...data.TempMovieDetails, obj]);
+      nameRef.current.focus();
+      nameRef.current.value = "";
+      ratingRef.current.value = "";
+      durationRef.current.value = "";
+    } else alert("Please Enter Duration in -> Eg. 2.5h or 2.5m ");
   };
 
   return (
@@ -71,7 +82,7 @@ export const MovieForm = () => {
             placeholder="Duration"
             ref={durationRef}
           />
-          <label>Duration(min/hrs)</label>
+          <label>Duration(h)</label>
         </div>
         <input
           type="submit"

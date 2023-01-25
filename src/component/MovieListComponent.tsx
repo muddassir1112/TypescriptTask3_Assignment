@@ -10,7 +10,7 @@ export const MovieListComponent = () => {
     data.TempMovieDetails.sort((a: any, b: any) => b.durationSort - a.durationSort)
         data.setTempMovieDetails([...data.TempMovieDetails])
         data.setMovieDetails([...data.MovieDetails])
-}, [data.MovieDetails])
+}, [data.MovieDetails.length])
   return (
     <div className="list_container">
       <table className="table table-striped table-hover">
@@ -23,7 +23,7 @@ export const MovieListComponent = () => {
                   </tr>
                   <tr>
                     <td>Ratings : {ele.ratings}/100</td>
-                    <td colSpan={10}>{ele.duration}</td>
+                    <td colSpan={10}>{ele.durationSort}h</td>
                   </tr>
                 </tbody>
               )
